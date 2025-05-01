@@ -19,10 +19,16 @@ class Listing extends Model
         'location',
         'county',
         'estate',
-        'image',
+        'images',
         'video_url',
+        'status',
         'is_verified',
         'created_at',
         'updated_at',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

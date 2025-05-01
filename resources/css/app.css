@@ -4,3 +4,86 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 @import "bootstrap/dist/js/bootstrap.bundle.min.js";
 @import "bootstrap-icons/font/bootstrap-icons.css";
+
+/* Custom Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.top-bar {
+    font-size: 0.9rem;
+}
+
+.navbar {
+    padding: 15px 0;
+    transition: all 0.3s;
+}
+
+.navbar.scrolled {
+    padding: 10px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.avatar-placeholder {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.dropdown-notifications {
+    width: 350px;
+    padding: 0;
+}
+
+.dropdown-notifications .dropdown-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.dropdown-notifications .dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+#backToTop {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    width: 50px;
+    height: 50px;
+    z-index: 99;
+}
+
+footer a {
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #adb5bd !important;
+}
+
+.social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.1);
+    margin-right: 8px;
+    transition: all 0.3s;
+}
+
+.social-icons a:hover {
+    background-color: rgba(255,255,255,0.2);
+    transform: translateY(-3px);
+}
+
+.location-card, .room-type-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.location-card:hover, .room-type-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}

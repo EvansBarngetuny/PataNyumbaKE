@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class AadminMiddleware
+{
+    public function handle(Request $request, \Closure $next)
+    {
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            return $next($request);
+        }
+
+        return redirect('/home')->with('error', 'You do not have admin access');
+    }
+}

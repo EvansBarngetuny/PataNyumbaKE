@@ -10,8 +10,11 @@ class ListingController extends Controller
 {
     public function index()
     {
+        // $listings = Listing::with('user')
+        // ->where('status', 'vacant')
+        // ->latest()
+        // ->paginate(12);
         $listings = Listing::with('user')
-        ->where('status', 'vacant')
         ->latest()
         ->paginate(12);
 

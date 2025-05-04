@@ -27,10 +27,18 @@
     <!-- Custom CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+
     @yield('styles')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJ+Y6k9sa5N0HfZsZ5xU2D6Nj1lEumJJ94Un8=" crossorigin="anonymous"></script>
+
+
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <!-- Top Notification Bar -->
     <div class="top-bar bg-primary text-white py-2 d-none d-md-block">
         <div class="container d-flex justify-content-between align-items-center">
@@ -189,7 +197,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-grow-1">
+    <main class="flex-grow-1 p-3">
         @yield('content')
     </main>
 
@@ -262,6 +270,8 @@
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
     <!-- Custom JS -->
     <script src="{{ asset('js/app.js') }}"></script>
@@ -293,6 +303,8 @@
     </script>
 
     @yield('scripts')
+    @stack('scripts')
+
 </body>
 
 </html>

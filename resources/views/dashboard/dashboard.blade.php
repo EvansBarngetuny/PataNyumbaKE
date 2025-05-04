@@ -3,12 +3,11 @@
 @section('page-title')
 {{ __('Admin Dashboard') }}
 @endsection
-
 @section('styles')
 <style>
 :root {
-    --sidebar-width: 280px;
-    --sidebar-bg: #1e293b;
+    /*--sidebar-width: 280px;
+    --sidebar-bg: #1e293b; */
     --sidebar-color: #f8fafc;
     --sidebar-active-bg: rgba(255, 255, 255, 0.1);
     --sidebar-hover-bg: rgba(255, 255, 255, 0.05);
@@ -25,34 +24,26 @@ body {
 
 /* Sidebar Styling */
 .sidebar {
+    width: auto;
+    /* Or remove this entirely if you use flex-shrink/width in layout */
+    min-width: 220px;
+    max-width: 100%;
     width: var(--sidebar-width);
     background: var(--sidebar-bg);
     color: var(--sidebar-color);
-    position: fixed;
-    top: var(--header-height);
-    left: 0;
-    bottom: 0;
-    z-index: 100;
-    transition: all 0.3s;
+    min-height: 100vh;
     overflow-y: auto;
     padding-bottom: 20px;
+    position: relative;
+    white-space: nowrap;
+    overflow-x: auto;
+    flex: 0 0 auto;
 }
 
 .sidebar-header {
     padding: 20px 15px;
     border-bottom: 1px solid var(--sidebar-border);
     margin-bottom: 10px;
-}
-
-.sidebar-header h4 {
-    color: white;
-    font-weight: 600;
-    margin-bottom: 0;
-}
-
-.sidebar-header small {
-    color: #94a3b8;
-    font-size: 0.8rem;
 }
 
 .nav-link {
@@ -65,54 +56,21 @@ body {
     transition: all 0.2s;
 }
 
-.nav-link i {
-    width: 24px;
-    text-align: center;
-    margin-right: 10px;
-    font-size: 1.1rem;
-}
-
-.nav-link:hover {
-    background: var(--sidebar-hover-bg);
-    color: white;
-}
-
 .nav-link.active {
     background: var(--sidebar-active-bg);
-    color: white;
     font-weight: 500;
-}
-
-.nav-link.active::after {
-    content: '';
-    display: block;
-    width: 3px;
-    height: 24px;
-    background: #3b82f6;
-    position: absolute;
-    right: 0;
-    border-radius: 3px 0 0 3px;
-}
-
-.collapse .nav-link {
-    padding-left: 45px;
-    font-size: 0.9rem;
-    margin: 0;
-    border-radius: 0;
-}
-
-.collapse .nav-link:hover {
-    background: var(--sidebar-hover-bg);
+    color: white;
 }
 
 /* Main Content Area */
 .main-content {
-    margin-left: var(--sidebar-width);
     padding: 20px;
-    min-height: calc(100vh - var(--header-height));
+    min-height: 100vh;
+    background-color: var(--content-bg);
+    flex-grow: 1;
 }
 
-/* Cards Styling */
+/* Card Styling */
 .card {
     border: none;
     border-radius: 10px;
@@ -122,163 +80,44 @@ body {
 
 .card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.card-header {
-    background: white;
-    border-bottom: 1px solid #e2e8f0;
-    font-weight: 600;
-}
-
-/* Stats Cards */
-.stat-card {
-    border-left: 4px solid;
-}
-
-.stat-card.bg-primary {
-    border-left-color: #1d4ed8;
-}
-
-.stat-card.bg-warning {
-    border-left-color: #b45309;
-}
-
-.stat-card.bg-success {
-    border-left-color: #047857;
-}
-
-.stat-card.bg-info {
-    border-left-color: #0e7490;
 }
 
 /* Footer */
 .admin-footer {
     background: white;
     padding: 15px 20px;
-    margin-left: var(--sidebar-width);
     border-top: 1px solid #e2e8f0;
 }
 
-/* Responsive Adjustments */
+/* Responsive: mobile sidebar hidden */
 @media (max-width: 992px) {
     .sidebar {
-        transform: translateX(-100%);
+        display: none;
     }
 
     .sidebar.show {
-        transform: translateX(0);
-    }
-
-    .main-content {
-        margin-left: 0;
-    }
-
-    .admin-footer {
-        margin-left: 0;
+        display: block;
+        position: absolute;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        height: 100%;
     }
 }
 </style>
 @endsection
 
 @section('content')
-<div class="container-fluid px-0">
+<div class="d-flex">
     <!-- Sidebar -->
-    <nav class="sidebar">
-        <div class="sidebar-header">
-            <h4>PataNyumba</h4>
-            <small>Admin Dashboard</small>
-        </div>
-
-        <ul class="nav flex-column">
-            <!-- Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link active" href="#">
-                    <i class="fas fa-tachometer-alt"></i> Dashboard
-                </a>
-            </li>
-
-            <!-- Users Management -->
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#usersMenu">
-                    <i class="fas fa-users"></i> Users Management
-                    <i class="fas fa-angle-down ms-auto"></i>
-                </a>
-                <div class="collapse show" id="usersMenu">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">All Users</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pending Approvals</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <!-- Properties -->
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#propertiesMenu">
-                    <i class="fas fa-home"></i> Properties
-                    <i class="fas fa-angle-down ms-auto"></i>
-                </a>
-                <div class="collapse show" id="propertiesMenu">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('listings.create') }}">Post A Room</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('layouts.allListings') }}">All Properties</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pending Approvals</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Reported Listings</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <!-- Other Menu Items -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-book"></i> Bookings
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-envelope"></i> Inquiries
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#paymentsMenu">
-                    <i class="fas fa-credit-card"></i> Payments
-                    <i class="fas fa-angle-down ms-auto"></i>
-                </a>
-                <div class="collapse" id="paymentsMenu">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">All Transactions</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pending Payments</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-chart-line"></i> Analytics
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <div class="sidebar">
+        @include('partials.sidebar')
+    </div>
 
     <!-- Main Content -->
-    <main class="main-content">
+    <main class="main-content flex-grow-1">
         <!-- Quick Stats -->
-        <div class="row g-4 mb-4">
+        <div id="dashboard-content" class="row g-4 mb-4">
             <div class="col-md-6 col-lg-3">
                 <div class="card stat-card bg-primary text-white">
                     <div class="card-body">
@@ -306,7 +145,32 @@ body {
                     </div>
                 </div>
             </div>
-
+            <div class="col-md-6 col-lg-3">
+                <div class="card stat-card" style="background-color: #14b8a6; border-color: #0d9488;">
+                    <div class="card-body text-white">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="text-uppercase small">Agents</h6>
+                                <h3 class="mb-0">{{ $user->total_agent }}</h3>
+                            </div>
+                            <i class="fas fa-user-tie fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card stat-card" style="background-color: #10b981; border-color: #059669;">
+                    <div class="card-body text-white">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="text-uppercase small">Tenants</h6>
+                                <h3 class="mb-0">{{ $user->total_tenant }}</h3>
+                            </div>
+                            <i class="fas fa-user-tie fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-6 col-lg-3">
                 <div class="card stat-card bg-success text-white">
                     <div class="card-body">
@@ -337,7 +201,7 @@ body {
         </div>
 
         <!-- Charts Section -->
-        <div class="row">
+        <div id="dynamic-content" class="row">
             <div class="col-lg-8">
                 <div class="card mb-4">
                     <div class="card-header bg-white d-flex justify-content-between align-items-center">
@@ -384,9 +248,132 @@ body {
                     </div>
                 </div>
             </div>
+            <!-- System Health -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <i class="fas fa-database fa-2x text-primary mb-2"></i>
+                            <h6 class="mb-1">Database</h6>
+                            <span class="badge bg-success">Connected</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <i class="fas fa-server fa-2x text-secondary mb-2"></i>
+                            <h6 class="mb-1">API Server</h6>
+                            <span class="badge bg-success">Operational</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <i class="fas fa-tasks fa-2x text-info mb-2"></i>
+                            <h6 class="mb-1">Queues</h6>
+                            <span class="badge bg-warning text-dark">1 job pending</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Approvals and Notifications Section -->
+            <div class="row g-4 mb-4">
+
+                <!-- Listings Approval Card -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-start border-warning border-4">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-home fa-2x text-warning me-3"></i>
+                                <div>
+                                    <h6 class="mb-0">Listings Awaiting Approval</h6>
+                                    <small class="text-muted">Review new property submissions</small>
+                                </div>
+                            </div>
+                            <h3 class="text-warning fw-bold">{{ $pendingListings ?? 0 }}</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unverified Landlords Card -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-start border-danger border-4">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-user-times fa-2x text-danger me-3"></i>
+                                <div>
+                                    <h6 class="mb-0">Unverified Landlords</h6>
+                                    <small class="text-muted">Pending identity verification</small>
+                                </div>
+                            </div>
+                            <h3 class="text-danger fw-bold">{{ $unverifiedLandlords ?? 0 }}</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Account Requests Card -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-start border-primary border-4">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-user-clock fa-2x text-primary me-3"></i>
+                                <div>
+                                    <h6 class="mb-0">User Account Requests</h6>
+                                    <small class="text-muted">New users awaiting activation</small>
+                                </div>
+                            </div>
+                            <h3 class="text-primary fw-bold">{{ $pendingUsers ?? 0 }}</h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Notifications Card -->
+            <!-- Notifications Card -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card shadow-sm border-start border-info border-4">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">System Notifications</h5>
+                            <span class="badge bg-info text-white">Live</span>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-bell text-warning me-3 fa-lg"></i>
+                                    <div>
+                                        <strong>Backup scheduled</strong><br>
+                                        <small class="text-muted">Every midnight</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-shield-alt text-danger me-3 fa-lg"></i>
+                                    <div>
+                                        <strong>2FA not enforced</strong><br>
+                                        <small class="text-muted">Critical security setting missing</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-envelope text-info me-3 fa-lg"></i>
+                                    <div>
+                                        <strong>1 support ticket unresolved</strong><br>
+                                        <small class="text-muted">Check support queue</small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </main>
 </div>
+
 @endsection
 
 @push('scripts')

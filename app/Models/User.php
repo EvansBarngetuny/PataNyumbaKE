@@ -50,4 +50,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Listing::class);
     }
+
+    public function unreadMessages()
+    {
+        return $this->hasMany(Message::class, 'recipient_id')
+                    ->whereNull('read_at');
+    }
 }

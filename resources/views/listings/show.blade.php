@@ -190,22 +190,25 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="contactForm">
+                <form id="contactForm" method="POST" action="{{ route('messages.store') }}">
+                    @csrf
+                    <input type="hidden" name="recipient_id" value="{{ $listing->user->id }}">
+                    <input type="hidden" name="listing_id" value="{{ $listing->id }}">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Your Name</label>
-                        <input type="text" class="form-control" id="name" required>
+                        <label for="name" class="form-label">Your Name *</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
                     </div>
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="email" required>
+                        <label for="email" class="form-label">Email Address *</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                     <div class="mb-3">
-                        <label for="phone" class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control" id="phone" required>
+                        <label for="phone" class="form-label">Phone Number *</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" required>
                     </div>
                     <div class="mb-3">
                         <label for="message" class="form-label">Message</label>
-                        <textarea class="form-control" id="message" rows="4"
+                        <textarea name="content" class="form-control" id="message" rows="4"
                             required>I'm interested in your property at {{ $listing->estate }}, {{ $listing->county }}. Please contact me with more details.</textarea>
                     </div>
                 </form>

@@ -34,7 +34,7 @@
                 <i class="fas fa-users me-2"></i> Tenants
             </a>
         </li>
-        <li>
+        <!--<li>
             <a href="{{ route('admin.messages.index') }}"
                 class="nav-link {{ request()->is('messagess*') ? 'active' : 'text-dark' }}">
                 <i class="fas fa-envelope m-2"></i> Messages
@@ -44,7 +44,7 @@
                 @endif
                 @endauth
             </a>
-        </li>
+        </li> -->
         <!-- System Monitoring -->
         <li class="mt-3 mb-1 text-uppercase fw-bold small text-muted">System Monitoring</li>
         <li>
@@ -54,12 +54,12 @@
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link {{ request()->is('spam-reports*') ? 'active' : 'text-dark' }}">
+            <a href="{{ route('admin.reports.index') }}" class="nav-link {{ request()->is('spam-reports*') ? 'active' : 'text-dark' }}">
                 <i class="fas fa-shield-alt me-2"></i> Spam/Reports
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link {{ request()->is('system-health*') ? 'active' : 'text-dark' }}">
+            <a href="{{ route('admin.system-health.index') }}"  class="nav-link {{ request()->is('system-health*') ? 'active' : 'text-dark' }}">
                 <i class="fas fa-server me-2"></i> System Health
             </a>
         </li>

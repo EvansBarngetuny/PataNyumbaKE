@@ -7,6 +7,8 @@ use App\Http\Controllers\LandlordController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SpamReportController;
+use App\Http\Controllers\SystemHealthController;
 use App\Http\Controllers\TenantController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -74,4 +76,14 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::post('/tenants', [TenantController::class, 'store'])->name('admin.tenants.store');
     Route::put('/tenants/{tenant}', [TenantController::class, 'update'])->name('admin.tenants.update'); // This is the store route
     Route::delete('/tenants/{tenant}', [TenantController::class, 'destroy'])->name('admin.tenants.destroy');
+    // Spam Reports
+    Route::get('/spam-reports', [SpamReportController::class, 'index'])->name('admin.reports.index');
+    //Route::post('/spam-reports', [SpamReportController::class, 'store'])->name('admin.reports.store');
+    //Route::put('/spam-reports/{report}', [SpamReportController::class, 'update'])->name('admin.reports.update'); // This is the store route
+
+    //System Health
+   // Route::get('/system-health', [SystemHealthController::class, 'index'])->name('admin.system-health.index');
+    Route::get('/system-health', [SystemHealthController::class, 'index'])->name('admin.system-health.index');
+    //Route::get('/system-health/chart', [SystemHealthController::class, 'chart'])->name('admin.system-health.chart');
+    //Route::get('/system-health/notifications', [SystemHealthController::class, 'notifications'])->name('admin.system-health.notifications');
 });

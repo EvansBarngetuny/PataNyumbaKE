@@ -1,191 +1,244 @@
 @extends('layouts.app')
-
 @section('styles')
 <style>
-/* Enhanced Table Styling */
-.table-responsive {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+/* Main table container */
+.table-container {
+    position: relative;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
 }
 
-#landlordsTable {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+/* Table header styling */
+.table thead {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
 }
 
-#landlordsTable thead th {
-    position: sticky;
-    top: 0;
-    background-color: #f8fafc;
-    z-index: 10;
-    font-weight: 600;
-    color: #334155;
-    padding: 1rem 1.25rem;
-    border-bottom: 1px solid #e2e8f0;
+.table thead th {
+    border-bottom: none;
+    padding: 15px 20px;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
 }
 
-#landlordsTable tbody td {
-    padding: 1rem 1.25rem;
-    vertical-align: middle;
-    border-bottom: 1px solid #e2e8f0;
+/* Table body styling */
+.table tbody tr {
     transition: all 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
 }
 
-#landlordsTable tbody tr:last-child td {
+.table tbody tr:last-child {
     border-bottom: none;
 }
 
-#landlordsTable tbody tr:hover td {
-    background-color: #f8fafc;
+.table tbody tr:hover {
+    background-color: rgba(74, 117, 252, 0.05);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Action Buttons */
+.table tbody td {
+    padding: 15px 20px;
+    vertical-align: middle;
+    color: #555;
+}
+
+/* Avatar styling */
+.avatar-container {
+    display: flex;
+    align-items: center;
+}
+
+.avatar-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.avatar-placeholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.table tbody tr:hover .avatar-img,
+.table tbody tr:hover .avatar-placeholder {
+    transform: scale(1.1);
+    border-color: #2575fc;
+}
+
+/* Badge styling */
+.badge {
+    padding: 5px 10px;
+    font-weight: 500;
+    font-size: 0.7rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-landlord {
+    background-color: #6a11cb;
+}
+
+.badge-agent {
+    background-color: #00b09b;
+}
+
+/* Action buttons */
 .action-buttons {
     display: flex;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
 .btn-action {
     width: 32px;
     height: 32px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    transition: all 0.2s;
-}
-
-.btn-edit {
-    color: #3b82f6;
-    border: 1px solid #bfdbfe;
-    background-color: #eff6ff;
-}
-
-.btn-edit:hover {
-    background-color: #dbeafe;
-    color: #2563eb;
-}
-
-.btn-delete {
-    color: #ef4444;
-    border: 1px solid #fecaca;
-    background-color: #fef2f2;
-}
-
-.btn-delete:hover {
-    background-color: #fee2e2;
-    color: #dc2626;
-}
-
-/* Modern Modal Styling */
-.modal-content {
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.modal-header {
-    padding: 1.5rem;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.modal-title {
-    font-weight: 600;
-    color: #1e293b;
-}
-
-.modal-body {
-    padding: 1.5rem;
-}
-
-.modal-footer {
-    padding: 1.25rem 1.5rem;
-    border-top: 1px solid #e2e8f0;
-}
-
-/* Form Styling */
-.form-control,
-.form-select {
-    padding: 0.625rem 1rem;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    transition: all 0.2s;
-}
-
-.form-control:focus,
-.form-select:focus {
-    border-color: #93c5fd;
-    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.2);
-}
-
-/* Avatar Improvements */
-.avatar-placeholder {
-    width: 40px;
-    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    font-weight: 500;
-    font-size: 1rem;
+    transition: all 0.2s ease;
+    border: none;
 }
 
-/* Badge Styling */
-.badge {
-    padding: 0.35em 0.65em;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    border-radius: 6px;
+.btn-edit {
+    background-color: rgba(37, 117, 252, 0.1);
+    color: #2575fc;
 }
 
-.badge-landlord {
-    background-color: #e0f2fe;
-    color: #0369a1;
+.btn-delete {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
 }
 
-.badge-agent {
-    background-color: #dcfce7;
-    color: #166534;
+.btn-action:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive Adjustments */
+.btn-action i {
+    font-size: 14px;
+}
+
+/* Empty state styling */
+.empty-state {
+    padding: 4rem;
+    text-align: center;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.empty-state-icon {
+    font-size: 4rem;
+    color: #adb5bd;
+    margin-bottom: 1.5rem;
+    opacity: 0.7;
+}
+
+.empty-state-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.empty-state-text {
+    color: #6c757d;
+    max-width: 500px;
+    margin: 0 auto 1.5rem;
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
-    #landlordsTable thead {
+    .table thead {
         display: none;
     }
 
-    #landlordsTable tbody tr {
+    .table tbody tr {
         display: block;
-        margin-bottom: 1rem;
-        border: 1px solid #e2e8f0;
+        margin-bottom: 20px;
+        border: 1px solid #f0f0f0;
         border-radius: 8px;
-        padding: 1rem;
     }
 
-    #landlordsTable tbody td {
+    .table tbody td {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.75rem 0.5rem;
-        border-bottom: 1px solid #f1f5f9;
+        padding: 12px 15px;
+        border-bottom: 1px solid #f0f0f0;
     }
 
-    #landlordsTable tbody td:before {
+    .table tbody td:before {
         content: attr(data-label);
         font-weight: 600;
-        color: #64748b;
-        margin-right: 1rem;
+        color: #495057;
+        margin-right: 15px;
+        flex: 1;
     }
 
-    #landlordsTable tbody td:last-child {
+    .table tbody td:last-child {
         border-bottom: none;
     }
 
+    .avatar-container {
+        justify-content: space-between;
+        width: 100%;
+    }
+
     .action-buttons {
-        justify-content: flex-end;
+        margin-left: auto;
     }
 }
+
+/* Loading animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.table tbody tr {
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.table tbody tr:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.table tbody tr:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.table tbody tr:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+/* Continue for as many rows as you expect */
 </style>
 @endsection
 

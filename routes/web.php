@@ -3,13 +3,16 @@
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LandlordController;
+use App\Http\Controllers\LandlordDashboardController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpamReportController;
 use App\Http\Controllers\SystemHealthController;
 use App\Http\Controllers\TenantController;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -50,9 +53,10 @@ Route::middleware(['auth'])->group(function () {
             ->name('messages.mark-successful');
     });
 });
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+});
 Route::get('/admin/listings', [ListingController::class, 'index'])->name('layouts.allListings');
 Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
 Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
@@ -62,7 +66,11 @@ Route::get('/posted-rooms', [ListingController::class, 'index'])->name('listings
 Route::get('/posted-rooms/search', [ListingController::class, 'search'])->name('listings.search');
 Route::get('/posted-rooms/{listing}', [ListingController::class, 'show'])->name('listings.show');
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/landlords', [LandlordController::class, 'index'])->name('admin.landlords.index');
+    // Route::get('/landlords', [LandlordController::class, 'index'])->name('admin.landlords.index');
+    // In web.php
+    // Route::get('/landlords', App\Http\Livewire\LandlordsTable::class)->name('landlords.index');
+    // Route::get('sytem-health', App\Http\Livewire\SystemHealth::class)->name('system-health.index');
+
     Route::post('/landlords', [LandlordController::class, 'store'])->name('admin.landlords.store');
     Route::put('/landlords/{landlord}', [LandlordController::class, 'update'])->name('admin.landlords.update'); // This is the store route
     Route::delete('/landlords/{landlord}', [LandlordController::class, 'destroy'])->name('admin.landlords.destroy');
@@ -78,12 +86,17 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::delete('/tenants/{tenant}', [TenantController::class, 'destroy'])->name('admin.tenants.destroy');
     // Spam Reports
     Route::get('/spam-reports', [SpamReportController::class, 'index'])->name('admin.reports.index');
-    //Route::post('/spam-reports', [SpamReportController::class, 'store'])->name('admin.reports.store');
-    //Route::put('/spam-reports/{report}', [SpamReportController::class, 'update'])->name('admin.reports.update'); // This is the store route
+    // Route::post('/spam-reports', [SpamReportController::class, 'store'])->name('admin.reports.store');
+    // Route::put('/spam-reports/{report}', [SpamReportController::class, 'update'])->name('admin.reports.update'); // This is the store route
 
-    //System Health
-   // Route::get('/system-health', [SystemHealthController::class, 'index'])->name('admin.system-health.index');
+    // System Health
+    // Route::get('/system-health', [SystemHealthController::class, 'index'])->name('admin.system-health.index');
     Route::get('/system-health', [SystemHealthController::class, 'index'])->name('admin.system-health.index');
-    //Route::get('/system-health/chart', [SystemHealthController::class, 'chart'])->name('admin.system-health.chart');
-    //Route::get('/system-health/notifications', [SystemHealthController::class, 'notifications'])->name('admin.system-health.notifications');
+    // Route::get('/system-health/chart', [SystemHealthController::class, 'chart'])->name('admin.system-health.chart');
+    // Route::get('/system-health/notifications', [SystemHealthController::class, 'notifications'])->name('admin.system-health.notifications');
+});
+// Landlord Routes
+Route::prefix('landlord')->middleware(['auth', 'landlord'])->group(function () {
+    Route::get('/dashboard', [LandlordDashboardController::class, 'index'])->name('landlord.dashboard');
+    // Route::get('/landlord/dashboard', [LandlordDashboardController::class, 'index'])->name('landloard.dashboard');
 });

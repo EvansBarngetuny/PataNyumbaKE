@@ -8,29 +8,28 @@
     <ul class="nav nav-pills flex-column mb-auto">
         <!-- Dashboard Overview -->
         <li class="nav-item">
-            <a href="{{ route('admin.dashboard') }}"
-                class="nav-link {{ request()->is('dashboard') ? 'active' : 'text-dark' }}">
+            <a href="#dashboard" class="nav-link {{ request()->is('dashboard') ? 'active' : 'text-dark' }}"
+                data-bs-toggle="tab">
                 <i class="fas fa-tachometer-alt me-2"></i> Overview
             </a>
         </li>
         <!-- User Management fas fa-building me-2-->
         <li class="mt-2 mb-1 text-uppercase fw-bold small text-muted">User Management</li>
         <li>
-            <a href="{{ route('admin.landlords.index') }}"
-                class="nav-link load-content {{ request()->is('landlord') ? 'active' : 'text-dark' }} "
-                data-target="landlords-content">
+            <a href="#landlords" class="nav-link {{ request()->is('admin/landlords*') ? 'active' : 'text-dark' }} "
+                data-bs-toggle="tab">
                 <i class="fas fa-user-tie me-2"></i> Landlords
             </a>
         </li>
         <li>
-            <a href=" {{ route('admin.agents.index') }}"
-                class="nav-link {{ request()->is('agents*') ? 'active' : 'text-dark' }}">
+            <a href="#agents" class="nav-link {{ request()->is('admin/agents*') ? 'active' : 'text-dark' }}"
+                data-bs-toggle="tab" data-url="{{ route('admin.agents.index') }}">
                 <i class="fas fa-user-secret me-2"></i> Agents
             </a>
         </li>
         <li>
-            <a href="{{ route('admin.tenants.index') }}"
-                class="nav-link {{ request()->is('tenants*') ? 'active' : 'text-dark' }}">
+            <a href="#tenants" class="nav-link {{ request()->is('admin/tenants*') ? 'active' : 'text-dark' }}"
+                data-bs-toggle="tab" data-url="{{ route('admin.tenants.index') }}">
                 <i class="fas fa-users me-2"></i> Tenants
             </a>
         </li>
@@ -54,12 +53,14 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('admin.reports.index') }}" class="nav-link {{ request()->is('spam-reports*') ? 'active' : 'text-dark' }}">
+            <a href="{{ route('admin.reports.index') }}"
+                class="nav-link {{ request()->is('spam-reports*') ? 'active' : 'text-dark' }}">
                 <i class="fas fa-shield-alt me-2"></i> Spam/Reports
             </a>
         </li>
         <li>
-            <a href="{{ route('admin.system-health.index') }}"  class="nav-link {{ request()->is('system-health*') ? 'active' : 'text-dark' }}">
+            <a href="#system-health"
+                class="nav-link {{ request()->is('admin/system-health*') ? 'active' : 'text-dark' }}">
                 <i class="fas fa-server me-2"></i> System Health
             </a>
         </li>

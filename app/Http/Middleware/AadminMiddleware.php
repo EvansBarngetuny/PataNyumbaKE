@@ -13,6 +13,6 @@ class AadminMiddleware
             return $next($request);
         }
 
-        return redirect('/home')->with('error', 'You do not have admin access');
+        return redirect('/')->with('error', 'You do not have admin access');
     }
 }

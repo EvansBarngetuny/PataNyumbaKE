@@ -11,6 +11,16 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $landlords = User::where('role', 'landlord')
+                    ->latest()
+                    ->take(5) // Get only 5 for the dashboard
+                    ->get();
+        $agents = User::where('role', 'agent')
+                        ->latest()
+                        ->paginate(10);
+        $tenants = User::where('role', 'tenant')
+                        ->latest()
+                        ->paginate(10);
         $totalUsers = User::count();
         $totalListings = Listing::count();
         $totalLandlords = User::where('role', 'landlord')->count();
@@ -32,6 +42,9 @@ class DashboardController extends Controller
 
         // dd($chartData);
         return view('dashboard.dashboard', [
+            'landlords' => $landlords,
+            'agents' => $agents,
+            'tenants' => $tenants,
             'user' => (object) [
                 'total_user' => $totalUsers,
                 'total_agent' => $totalAgents,

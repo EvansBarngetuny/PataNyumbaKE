@@ -1,4 +1,3 @@
-@extends('layouts.app')
 @section('styles')
 <style>
 /* Main table container */
@@ -242,7 +241,6 @@
 </style>
 @endsection
 
-@section('content')
 <div class="container-fluid">
     <!-- Page Header -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -562,6 +560,3 @@ $(document).ready(function() {
 </script>
 @endif
 @endpush
-
-
-@endsection

@@ -117,266 +117,280 @@ body {
     <!-- Main Content -->
     <main class="main-content flex-grow-1">
         <!-- Quick Stats -->
-        <div id="dashboard-content" class="row g-4 mb-4">
-            <div class="col-md-6 col-lg-3">
-                <div class="card stat-card bg-primary text-white">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h6 class="text-uppercase small">Total Users</h6>
-                                <h3 class="mb-0">{{ $user->total_user }}</h3>
-                            </div>
-                            <i class="fas fa-users fa-2x opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="card stat-card bg-warning text-white">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h6 class="text-uppercase small">Landlords</h6>
-                                <h3 class="mb-0">{{ $user->total_landlord }}</h3>
-                            </div>
-                            <i class="fas fa-user-tie fa-2x opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card stat-card" style="background-color: #14b8a6; border-color: #0d9488;">
-                    <div class="card-body text-white">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h6 class="text-uppercase small">Agents</h6>
-                                <h3 class="mb-0">{{ $user->total_agent }}</h3>
-                            </div>
-                            <i class="fas fa-user-tie fa-2x opacity-75"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card stat-card" style="background-color: #10b981; border-color: #059669;">
-                    <div class="card-body text-white">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h6 class="text-uppercase small">Tenants</h6>
-                                <h3 class="mb-0">{{ $user->total_tenant }}</h3>
-                            </div>
-                            <i class="fas fa-user-tie fa-2x opacity-75"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card stat-card bg-success text-white">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h6 class="text-uppercase small">Listings</h6>
-                                <h3 class="mb-0">{{ $user->total_listing }}</h3>
-                            </div>
-                            <i class="fas fa-home fa-2x opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="card stat-card bg-info text-white">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h6 class="text-uppercase small">Verified</h6>
-                                <h3 class="mb-0">{{ $user->verified_listing }}</h3>
-                            </div>
-                            <i class="fas fa-check-circle fa-2x opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Charts Section -->
-        <div id="dynamic-content" class="row">
-            <div class="col-lg-8">
-                <div class="card mb-4">
-                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Rent Payments</h5>
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
-                                data-bs-toggle="dropdown">
-                                This Month
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">This Week</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div id="chart-sales" style="height: 300px;"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="card mb-4">
-                    <div class="card-header bg-white">
-                        <h5 class="mb-0">Recent Activities</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="activity-feed">
-                            <div class="d-flex mb-3">
-                                <div class="flex-shrink-0">
-                                    <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
-                                        style="width: 40px; height: 40px;">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <p class="mb-0">New landlord registered</p>
-                                    <small class="text-muted">2 minutes ago</small>
-                                </div>
-                            </div>
-                            <!-- More activity items -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- System Health -->
-            <div class="row mb-4">
-                <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <i class="fas fa-database fa-2x text-primary mb-2"></i>
-                            <h6 class="mb-1">Database</h6>
-                            <span class="badge bg-success">Connected</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <i class="fas fa-server fa-2x text-secondary mb-2"></i>
-                            <h6 class="mb-1">API Server</h6>
-                            <span class="badge bg-success">Operational</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <i class="fas fa-tasks fa-2x text-info mb-2"></i>
-                            <h6 class="mb-1">Queues</h6>
-                            <span class="badge bg-warning text-dark">1 job pending</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Approvals and Notifications Section -->
-            <div class="row g-4 mb-4">
-
-                <!-- Listings Approval Card -->
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm border-start border-warning border-4">
-                        <div class="card-body d-flex flex-column justify-content-between">
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="fas fa-home fa-2x text-warning me-3"></i>
-                                <div>
-                                    <h6 class="mb-0">Listings Awaiting Approval</h6>
-                                    <small class="text-muted">Review new property submissions</small>
-                                </div>
-                            </div>
-                            <h3 class="text-warning fw-bold">{{ $pendingListings ?? 0 }}</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Unverified Landlords Card -->
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm border-start border-danger border-4">
-                        <div class="card-body d-flex flex-column justify-content-between">
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="fas fa-user-times fa-2x text-danger me-3"></i>
-                                <div>
-                                    <h6 class="mb-0">Unverified Landlords</h6>
-                                    <small class="text-muted">Pending identity verification</small>
-                                </div>
-                            </div>
-                            <h3 class="text-danger fw-bold">{{ $unverifiedLandlords ?? 0 }}</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- User Account Requests Card -->
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm border-start border-primary border-4">
-                        <div class="card-body d-flex flex-column justify-content-between">
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="fas fa-user-clock fa-2x text-primary me-3"></i>
-                                <div>
-                                    <h6 class="mb-0">User Account Requests</h6>
-                                    <small class="text-muted">New users awaiting activation</small>
-                                </div>
-                            </div>
-                            <h3 class="text-primary fw-bold">{{ $pendingUsers ?? 0 }}</h3>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Notifications Card -->
-            <!-- Notifications Card -->
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="card shadow-sm border-start border-info border-4">
-                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">System Notifications</h5>
-                            <span class="badge bg-info text-white">Live</span>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex align-items-center">
-                                    <i class="fas fa-bell text-warning me-3 fa-lg"></i>
+        <div class="tab-content mt-3">
+            <div class="tab-pane fade show active" id="dashboard">
+                <div id="dashboard-content" class="row g-4 mb-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card stat-card bg-primary text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
                                     <div>
-                                        <strong>Backup scheduled</strong><br>
-                                        <small class="text-muted">Every midnight</small>
+                                        <h6 class="text-uppercase small">Total Users</h6>
+                                        <h3 class="mb-0">{{ $user->total_user }}</h3>
                                     </div>
-                                </li>
-                                <li class="list-group-item d-flex align-items-center">
-                                    <i class="fas fa-shield-alt text-danger me-3 fa-lg"></i>
+                                    <i class="fas fa-users fa-2x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card stat-card bg-warning text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
                                     <div>
-                                        <strong>2FA not enforced</strong><br>
-                                        <small class="text-muted">Critical security setting missing</small>
+                                        <h6 class="text-uppercase small">Landlords</h6>
+                                        <h3 class="mb-0">{{ $user->total_landlord }}</h3>
                                     </div>
-                                </li>
-                                <li class="list-group-item d-flex align-items-center">
-                                    <i class="fas fa-envelope text-info me-3 fa-lg"></i>
+                                    <i class="fas fa-user-tie fa-2x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card stat-card" style="background-color: #14b8a6; border-color: #0d9488;">
+                            <div class="card-body text-white">
+                                <div class="d-flex justify-content-between">
                                     <div>
-                                        <strong>1 support ticket unresolved</strong><br>
-                                        <small class="text-muted">Check support queue</small>
+                                        <h6 class="text-uppercase small">Agents</h6>
+                                        <h3 class="mb-0">{{ $user->total_agent }}</h3>
                                     </div>
-                                </li>
-                            </ul>
+                                    <i class="fas fa-user-tie fa-2x opacity-75"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card stat-card" style="background-color: #10b981; border-color: #059669;">
+                            <div class="card-body text-white">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h6 class="text-uppercase small">Tenants</h6>
+                                        <h3 class="mb-0">{{ $user->total_tenant }}</h3>
+                                    </div>
+                                    <i class="fas fa-user-tie fa-2x opacity-75"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card stat-card bg-success text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h6 class="text-uppercase small">Listings</h6>
+                                        <h3 class="mb-0">{{ $user->total_listing }}</h3>
+                                    </div>
+                                    <i class="fas fa-home fa-2x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card stat-card bg-info text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h6 class="text-uppercase small">Verified</h6>
+                                        <h3 class="mb-0">{{ $user->verified_listing }}</h3>
+                                    </div>
+                                    <i class="fas fa-check-circle fa-2x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Charts Section -->
+                <div id="dynamic-content" class="row">
+                    <div class="col-lg-8">
+                        <div class="card mb-4">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Rent Payments</h5>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown">
+                                        This Month
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">This Week</a></li>
+                                        <li><a class="dropdown-item" href="#">This Month</a></li>
+                                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="chart-sales" style="height: 300px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card mb-4">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0">Recent Activities</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="activity-feed">
+                                    <div class="d-flex mb-3">
+                                        <div class="flex-shrink-0">
+                                            <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+                                                style="width: 40px; height: 40px;">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="mb-0">New landlord registered</p>
+                                            <small class="text-muted">2 minutes ago</small>
+                                        </div>
+                                    </div>
+                                    <!-- More activity items -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- System Health -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <i class="fas fa-database fa-2x text-primary mb-2"></i>
+                                    <h6 class="mb-1">Database</h6>
+                                    <span class="badge bg-success">Connected</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <i class="fas fa-server fa-2x text-secondary mb-2"></i>
+                                    <h6 class="mb-1">API Server</h6>
+                                    <span class="badge bg-success">Operational</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <i class="fas fa-tasks fa-2x text-info mb-2"></i>
+                                    <h6 class="mb-1">Queues</h6>
+                                    <span class="badge bg-warning text-dark">1 job pending</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Approvals and Notifications Section -->
+                    <div class="row g-4 mb-4">
+
+                        <!-- Listings Approval Card -->
+                        <div class="col-md-4">
+                            <div class="card h-100 shadow-sm border-start border-warning border-4">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-home fa-2x text-warning me-3"></i>
+                                        <div>
+                                            <h6 class="mb-0">Listings Awaiting Approval</h6>
+                                            <small class="text-muted">Review new property submissions</small>
+                                        </div>
+                                    </div>
+                                    <h3 class="text-warning fw-bold">{{ $pendingListings ?? 0 }}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Unverified Landlords Card -->
+                        <div class="col-md-4">
+                            <div class="card h-100 shadow-sm border-start border-danger border-4">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-user-times fa-2x text-danger me-3"></i>
+                                        <div>
+                                            <h6 class="mb-0">Unverified Landlords</h6>
+                                            <small class="text-muted">Pending identity verification</small>
+                                        </div>
+                                    </div>
+                                    <h3 class="text-danger fw-bold">{{ $unverifiedLandlords ?? 0 }}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- User Account Requests Card -->
+                        <div class="col-md-4">
+                            <div class="card h-100 shadow-sm border-start border-primary border-4">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-user-clock fa-2x text-primary me-3"></i>
+                                        <div>
+                                            <h6 class="mb-0">User Account Requests</h6>
+                                            <small class="text-muted">New users awaiting activation</small>
+                                        </div>
+                                    </div>
+                                    <h3 class="text-primary fw-bold">{{ $pendingUsers ?? 0 }}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Notifications Card -->
+                    <!-- Notifications Card -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-start border-info border-4">
+                                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">System Notifications</h5>
+                                    <span class="badge bg-info text-white">Live</span>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex align-items-center">
+                                            <i class="fas fa-bell text-warning me-3 fa-lg"></i>
+                                            <div>
+                                                <strong>Backup scheduled</strong><br>
+                                                <small class="text-muted">Every midnight</small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex align-items-center">
+                                            <i class="fas fa-shield-alt text-danger me-3 fa-lg"></i>
+                                            <div>
+                                                <strong>2FA not enforced</strong><br>
+                                                <small class="text-muted">Critical security setting missing</small>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex align-items-center">
+                                            <i class="fas fa-envelope text-info me-3 fa-lg"></i>
+                                            <div>
+                                                <strong>1 support ticket unresolved</strong><br>
+                                                <small class="text-muted">Check support queue</small>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="tab-pane fade" id="landlords">
+                @livewire('landlords-table')
 
-
+            </div>
+            <!-- Agents Tab -->
+            <div class="tab-pane fade" id="agents">
+                @livewire('agents-table')
+            </div>
+            <div class="tab-pane fade" id="tenants">
+                @livewire('tenants-table')
+            </div>
+            <div class="tab-pane fade" id="system-health">
+                @livewire('system-health')
+            </div>
         </div>
     </main>
 </div>
-
 @endsection
-
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize chart
@@ -439,6 +453,54 @@ document.addEventListener('DOMContentLoaded', function() {
     // Toggle sidebar on mobile
     document.querySelector('.sidebar-toggler').addEventListener('click', function() {
         document.querySelector('.sidebar').classList.toggle('show');
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const triggerTabList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tab"]'));
+
+    triggerTabList.forEach(function(triggerEl) {
+        triggerEl.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            // Get the target tab
+            const target = triggerEl.getAttribute('href');
+            const tabPane = document.querySelector(target);
+
+            if (tabPane) {
+                // Fade out the currently active tab
+                const activeTab = document.querySelector('.tab-pane.show');
+                if (activeTab) {
+                    activeTab.classList.remove('show', 'active');
+                    activeTab.style.opacity = 0;
+                }
+
+                // Load content with a fade-in effect
+                tabPane.style.opacity = 0;
+                tabPane.classList.add('show', 'active');
+                setTimeout(() => {
+                    tabPane.style.transition = "opacity 0.5s";
+                    tabPane.style.opacity = 1;
+                }, 50);
+            }
+        });
+    });
+
+    // Initialize the dashboard tab as active on page load
+    const dashboardTab = document.querySelector('#dashboard');
+    if (dashboardTab) {
+        dashboardTab.classList.add('show', 'active');
+        dashboardTab.style.opacity = 1;
+    }
+
+    // Handle back/forward navigation
+    window.addEventListener('popstate', function() {
+        const activeTab = window.location.hash || '#dashboard';
+        const triggerEl = document.querySelector(`[href="${activeTab}"]`);
+
+        if (triggerEl) {
+            const tabInstance = new bootstrap.Tab(triggerEl);
+            tabInstance.show();
+        }
     });
 });
 </script>

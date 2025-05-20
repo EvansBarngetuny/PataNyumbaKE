@@ -1,55 +1,40 @@
 @extends('layouts.app')
 
 @section('page-title', 'Landlord Dashboard')
-
 @section('styles')
 <style>
 :root {
     --sidebar-width: 280px;
     --sidebar-collapsed-width: 80px;
-    --sidebar-bg: #ffffff;
-    --sidebar-active-bg: rgba(79, 70, 229, 0.2);
-    --sidebar-active-color: #4f46e5;
-    --sidebar-hover-bg: rgba(255, 255, 255, 0.05);
-    --sidebar-icon-size: 1.25rem;
+    --sidebar-bg: #0056b3;
+    --sidebar-text-color: #ffffff;
+    --sidebar-hover-bg: rgba(255, 255, 255, 0.1);
+    --sidebar-active-bg: rgba(255, 255, 255, 0.2);
     --sidebar-transition: all 0.3s ease;
-    --primary-color: #4f46e5;
-    --secondary-color: #6b7280;
-    --success-color: #10b981;
-    --warning-color: #f59e0b;
-    --danger-color: #ef4444;
+    --primary-color: #7b7a86;
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    --card-radius: 10px;
+    --text-muted: #6b7280;
 }
 
-/* Sidebar Styles */
+/* Sidebar */
 .sidebar {
+    width: auto;
+    min-width: 220px;
+    max-width: 100%;
     width: var(--sidebar-width);
-    min-height: 100vh;
     background: var(--sidebar-bg);
-    color: var(--sidebar-color);
+    color: var(--sidebar-text-color);
     transition: var(--sidebar-transition);
-    //*position: fixed; */
-    z-index: 900;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.sidebar-collapsed {
-    width: var(--sidebar-collapsed-width);
-}
-
-.sidebar-collapsed .sidebar-text {
-    display: none;
-}
-
-.sidebar-collapsed .nav-link {
-    justify-content: center;
-}
-
-.sidebar-collapsed .sidebar-logo-text {
-    display: none;
-}
-
-.sidebar-collapsed .sidebar-logo-icon {
-    display: block !important;
+    min-height: 100vh;
+    position: relative;
+    overflow-y: auto;
+    padding-bottom: 20px;
+    white-space: nowrap;
+    overflow-x: auto;
+    flex: 0 0 auto;
+    flex-shrink: 0;
 }
 
 .sidebar-logo {
@@ -58,119 +43,81 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.sidebar-logo-icon {
-    display: none;
-    font-size: 1.5rem;
-    color: var(--sidebar-color);
+    color: var(--sidebar-text-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .sidebar-menu {
+    flex: 1;
     padding: 20px 0;
     overflow-y: auto;
-    height: calc(100vh - 70px);
 }
 
 .nav-link {
-    color: var(--sidebar-color);
+    color: var(--sidebar-text-color);
     padding: 12px 20px;
     margin: 5px 10px;
     border-radius: 6px;
     display: flex;
     align-items: center;
     transition: var(--sidebar-transition);
+    font-size: 0.95rem;
 }
 
 .nav-link:hover {
     background: var(--sidebar-hover-bg);
-    color: var(--sidebar-color);
 }
 
 .nav-link.active {
     background: var(--sidebar-active-bg);
-    color: var(--sidebar-active-color);
+    font-weight: bold;
 }
 
 .nav-link i {
-    font-size: var(--sidebar-icon-size);
     margin-right: 12px;
-    width: 24px;
-    text-align: center;
+    font-size: 1.2rem;
 }
 
-.sidebar-text {
-    transition: var(--sidebar-transition);
-}
-
-.sidebar-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 15px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.collapse-btn {
-    background: none;
-    border: none;
-    color: var(--sidebar-color);
-    cursor: pointer;
-    font-size: 1.25rem;
-}
-
-/* Main Content Adjustments */
+/* Main Content */
 .main-content {
-    margin-left: var(--sidebar-width);
+    flex-grow: 1;
+    padding: 20px;
+    background: #f9fafb;
+    min-height: 100vh;
+    overflow-x: hidden;
     transition: var(--sidebar-transition);
 }
 
-.main-content-collapsed {
-    margin-left: var(--sidebar-collapsed-width);
+.dashboard-card {
+    background: var(--card-bg);
+    box-shadow: var(--card-shadow);
+    border-radius: var(--card-radius);
+    padding: 20px;
+    transition: transform 0.3s ease;
 }
 
-/* Badge Styles */
-.sidebar-badge {
-    margin-left: auto;
-    background: var(--primary-color);
-    color: white;
-    border-radius: 20px;
-    padding: 2px 8px;
-    font-size: 0.7rem;
+.dashboard-card:hover {
+    transform: translateY(-5px);
 }
 
-/* Dropdown Styles */
-.sidebar-dropdown {
-    position: relative;
+.dashboard-card h6 {
+    color: var(--text-muted);
+    font-size: 0.9rem;
 }
 
-.sidebar-dropdown-menu {
-    display: none;
-    padding-left: 20px;
+.dashboard-card h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
-.sidebar-dropdown-menu.show {
-    display: block;
-}
-
-.sidebar-dropdown-toggle::after {
-    content: '\f078';
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    border: none;
-    margin-left: auto;
-    transition: transform 0.3s;
-}
-
-.sidebar-dropdown-toggle[aria-expanded="true"]::after {
-    transform: rotate(180deg);
-}
-
-/* Responsive Styles */
+/* Responsive Design */
 @media (max-width: 992px) {
     .sidebar {
         transform: translateX(-100%);
+        position: absolute;
+        z-index: 1100;
     }
 
     .sidebar-show {
@@ -181,20 +128,6 @@
         margin-left: 0;
     }
 }
-
-/* Dashboard Card Styles */
-.dashboard-card {
-    transition: all 0.3s ease;
-    border-left: 4px solid var(--primary-color);
-    border-radius: 8px;
-}
-
-.dashboard-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Other existing styles... */
 </style>
 @endsection
 
@@ -203,7 +136,7 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <span class="sidebar-logo-text">Landlord Pro</span>
+            <span class="sidebar-logo-text">Landlord Panel</span>
             <span class="sidebar-logo-icon"><i class="fas fa-home"></i></span>
             <button class="collapse-btn" id="sidebarCollapse">
                 <i class="fas fa-bars"></i>
@@ -360,7 +293,7 @@
             </ul>
         </div>
 
-        <div class="sidebar-footer">
+       <!-- <div class="sidebar-footer">
             <div class="d-flex align-items-center">
                 <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle me-2" width="40"
                     height="40" alt="User">
@@ -370,7 +303,7 @@
                 </div>
                 <a href="#" class="ms-auto text-white"><i class="fas fa-sign-out-alt"></i></a>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <!-- Main Content -->
@@ -760,18 +693,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize dropdown toggles
     const dropdownToggles = document.querySelectorAll('.sidebar-dropdown-toggle');
     dropdownToggles.forEach(toggle => {
-        toggle.addEventListener('click', function() {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
             const targetId = this.getAttribute('href');
             const targetMenu = document.querySelector(targetId);
 
             // Close other open dropdowns
             document.querySelectorAll('.sidebar-dropdown-menu').forEach(menu => {
-                if (menu.id !== targetId.replace('#', '')) {
+                if (menu !== targetMenu) {
                     menu.classList.remove('show');
-                    const toggleBtn = document.querySelector(`[href="#${menu.id}"]`);
-                    if (toggleBtn) {
-                        toggleBtn.setAttribute('aria-expanded', 'false');
-                    }
+                    menu.previousElementSibling.setAttribute('aria-expanded', 'false');
                 }
             });
 
@@ -779,6 +710,14 @@ document.addEventListener('DOMContentLoaded', function() {
             targetMenu.classList.toggle('show');
             this.setAttribute('aria-expanded', targetMenu.classList.contains('show'));
         });
+    });
+    collapseBtn.addEventListener('click', function() {
+        if (sidebar.classList.contains('sidebar-collapsed')) {
+            document.querySelectorAll('.sidebar-dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+                menu.previousElementSibling.setAttribute('aria-expanded', 'false');
+            });
+        }
     });
 
     // Initialize Bootstrap tabs

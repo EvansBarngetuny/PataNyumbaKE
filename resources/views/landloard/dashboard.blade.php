@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('page-title', 'Landlord Dashboard')
 @section('styles')
@@ -313,10 +313,9 @@
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Landlord Dashboard</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
-                <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-                    data-bs-target="#addListingModal">
+                <a href="{{ route('listings.create') }}" class="btn btn-sm btn-outline-secondary">
                     <i class="fas fa-plus me-1"></i> Add New Listing
-                </button>
+                </a>
             </div>
         </div>
 
@@ -431,9 +430,9 @@
             <div class="tab-pane fade" id="listings">
                 <div class="d-flex justify-content-between mb-3">
                     <h4>My Property Listings</h4>
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addListingModal">
+                    <a href="{{ route('listings.create') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-plus me-1"></i> Add Listing
-                    </button>
+                    </a>
                 </div>
 
                 <div class="row">

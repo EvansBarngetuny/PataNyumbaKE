@@ -21,6 +21,12 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+
     <!-- Custom CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -145,31 +151,13 @@
     <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <!-- Top Notification Bar -->
-    <div class="top-bar bg-primary text-white py-2 d-none d-md-block">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="top-bar-left">
-                <span><i class="fas fa-phone-alt me-2"></i> +254 716250529</span>
-                <span class="ms-4"><i class="fas fa-envelope me-2"></i> info@patanyumba.co.ke</span>
-            </div>
-            <div class="top-bar-right">
-                <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-        </div>
-    </div>
-
     <!-- Main Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
         <div class="container-fluid">
             <!-- Logo/Application Name on Left -->
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-home"></i>
-                <span>RentalHub</span>
+             <a class="navbar-brand" href="{{ url('/') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="PataNyumba" height="40">
             </a>
-
             <!-- Mobile Toggle Button -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
                 <span class="navbar-toggler-icon"></span>
@@ -179,15 +167,7 @@
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <!-- Centered Navigation Items (optional) -->
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-search me-1"></i> Browse</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-home me-1"></i> Properties</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-question-circle me-1"></i> Help</a>
-                    </li>
+
                 </ul>
 
                 <!-- User Navigation on Right -->
@@ -256,34 +236,43 @@
                             role="button" data-bs-toggle="dropdown">
                             <div class="avatar-placeholder rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-2"
                                 style="width: 32px; height: 32px;">
-                                J
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                             </div>
-                            <span class="d-none d-lg-inline">John Doe</span>
+                            <span class="d-none d-lg-inline">{{ Auth::user()->name }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                             <div class="dropdown-header">
                                 <h6 class="mb-0">My Account</h6>
-                                <small class="text-muted">Role: Landlord</small>
+                                <small class="text-muted">Role: {{ ucfirst(Auth::user()->role) }}</small>
                             </div>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('profile.show') }}">
                                 <i class="fas fa-user me-2"></i> Profile
                             </a>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('profile.edit') }}">
                                 <i class="fas fa-edit me-2"></i> Edit Profile
                             </a>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('profile.password.edit') }}">
                                 <i class="fas fa-lock me-2"></i> Change Password
                             </a>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('listings.create') }}">
                                 <i class="fas fa-plus-circle me-2"></i> Add Property
                             </a>
+                             @if(Auth::user()->role === 'admin')
+                            <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                <i class="fas fa-tachometer-alt me-2"></i> Admin Dashboard
+                            </a>
+                            @endif
                             <a class="dropdown-item" href="#">
                                 <i class="fas fa-cog me-2"></i> Settings
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fas fa-sign-out-alt me-2"></i> Logout
                             </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </div>
                     </li>
                 </ul>

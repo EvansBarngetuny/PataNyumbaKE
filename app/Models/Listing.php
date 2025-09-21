@@ -27,8 +27,20 @@ class Listing extends Model
         'updated_at',
     ];
 
+       protected $casts = [
+        //'images' => 'array',
+        'is_verified' => 'boolean',
+    ];
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function payment()
+    {
+        return $this->hasMany(Payment::class);
+    }
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
     }
 }

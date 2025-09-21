@@ -125,6 +125,9 @@
                             <h6 class="mb-0">{{ $listing->user->name }}</h6>
                             <small class="text-muted">Landlord</small>
                         </div>
+                        <!-- WhatsApp Button -->
+
+
                     </div>
 
                     <ul class="list-unstyled mb-4">
@@ -138,10 +141,30 @@
                     <button class="btn btn-primary w-100 mb-3" data-bs-toggle="modal" data-bs-target="#contactModal">
                         <i class="fas fa-envelope me-2"></i> Send Message
                     </button>
-
-                    <button class="btn btn-outline-primary w-100">
-                        <i class="fas fa-phone me-2"></i> Call Now
-                    </button>
+                    @if($listing->user->phone_number)
+    @php
+        // make sure the phone number is international format for WhatsApp
+        $whatsappNumber = preg_replace('/\D+/', '', $listing->user->phone_number); // digits only
+        // if Kenyan and 07… convert to 254…
+        if (str_starts_with($whatsappNumber, '07')) {
+            $whatsappNumber = '254' . substr($whatsappNumber, 1);
+        }
+        @endphp
+            <a href="https://wa.me/{{ $whatsappNumber }}?text={{ urlencode('Hello '.$listing->user->name.', I\'m interested in your property at '.$listing->estate.', '.$listing->county) }}"
+            target="_blank"
+            class="btn btn-success w-100 mb-3">
+            <i class="fab fa-whatsapp me-2"></i> WhatsApp
+            </a>
+        @endif
+       @if($listing->user->phone_number)
+            <a href="tel:{{ $listing->user->phone_number }}" class="btn btn-outline-primary w-100 mb-2">
+                <i class="fas fa-phone me-2"></i> Call Now
+            </a>
+            @endif
+            <a href="mailto:{{ $listing->user->email }}?subject=Inquiry%20about%20{{ urlencode($listing->title) }}&body=Hello%20{{ urlencode($listing->user->name) }}%2C%0A%0AI%20am%20interested%20in%20your%20property%20{{ urlencode($listing->title) }}%20at%20{{ urlencode($listing->estate) }}%2C%20{{ urlencode($listing->county) }}.%0A%0APlease%20send%20me%20more%20information.%0A%0AThank you."
+               class="btn btn-outline-secondary w-100 mb-3">
+                <i class="fas fa-envelope me-2"></i> Email Directly
+            </a>
                 </div>
             </div>
 
@@ -178,6 +201,35 @@
                 </div>
             </div>
         </div>
+        <!-- Booking Card - Only show if listing is vacant -->
+@if($listing->status === 'vacant')
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body text-center">
+        <h5 class="card-title mb-3">Interested in this property?</h5>
+        <p class="text-muted mb-4">Reserve this room now by submitting a booking request</p>
+        <button class="btn btn-success btn-lg w-100" data-bs-toggle="modal" data-bs-target="#bookingModal">
+            <i class="fas fa-calendar-check me-2"></i> Book This Room
+        </button>
+    </div>
+</div>
+@else
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body text-center">
+        <h5 class="card-title mb-3">Property Status:
+            <span class="badge bg-{{ $listing->status == 'Booked' ? 'warning' : 'danger' }}">
+                {{ ucfirst($listing->status) }}
+            </span>
+        </h5>
+        <p class="text-muted">
+            @if($listing->status == 'Booked')
+            This property is currently reserved. Please check back later or contact the landlord for availability.
+            @else
+            This property is currently occupied. Please check back later for availability.
+            @endif
+        </p>
+    </div>
+</div>
+@endif
     </div>
 </div>
 
@@ -196,20 +248,36 @@
                     <input type="hidden" name="listing_id" value="{{ $listing->id }}">
                     <div class="mb-3">
                         <label for="name" class="form-label">Your Name *</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <input type="text" class="form-control" id="name" name="name" required
+                        value="{{ auth()->check() ? auth()->user()->name : '' }}">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email Address *</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <input type="email" class="form-control" id="email" name="email" required
+                        value="{{ auth()->check() ? auth()->user()->email : '' }}">
                     </div>
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone Number *</label>
-                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                        <input type="tel" class="form-control" id="phone" name="phone" required
+                        value="{{ auth()->check() && auth()->user()->phone_number ? auth()->user()->phone_number: '' }}">
                     </div>
                     <div class="mb-3">
                         <label for="message" class="form-label">Message</label>
                         <textarea name="content" class="form-control" id="message" rows="4"
-                            required>I'm interested in your property at {{ $listing->estate }}, {{ $listing->county }}. Please contact me with more details.</textarea>
+                            required>
+                        Hello {{ $listing->user->name }},
+
+I'm interested in your property "{{ $listing->title }}" at {{ $listing->estate }}, {{ $listing->county }}.
+
+Please provide me with more information about:
+- Availability
+- Viewing schedule
+- Any additional details
+
+Thank you.
+
+Best regards,
+[Your Name]</textarea>
                     </div>
                 </form>
             </div>
@@ -217,6 +285,52 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" form="contactForm" class="btn btn-primary">Send Message</button>
             </div>
+        </div>
+    </div>
+</div>
+<!-- Booking Modal -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookingModalLabel">Book This Room</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="{{ route('bookings.store') }}">
+                @csrf
+                <input type="hidden" name="listing_id" value="{{ $listing->id }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="bookingFullName" class="form-label">Full Name *</label>
+                        <input type="text" class="form-control" id="bookingFullName" name="full_name" required
+                               value="{{ auth()->check() ? auth()->user()->name : '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="bookingEmail" class="form-label">Email Address *</label>
+                        <input type="email" class="form-control" id="bookingEmail" name="email" required
+                               value="{{ auth()->check() ? auth()->user()->email : '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="bookingPhone" class="form-label">Phone Number *</label>
+                        <input type="tel" class="form-control" id="bookingPhone" name="phone" required
+                               value="{{ auth()->check() && auth()->user()->phone_number ? auth()->user()->phone_number : '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="bookingMoveInDate" class="form-label">Preferred Move-in Date</label>
+                        <input type="date" class="form-control" id="bookingMoveInDate" name="move_in_date"
+                               min="{{ date('Y-m-d') }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="bookingMessage" class="form-label">Message to Landlord</label>
+                        <textarea class="form-control" id="bookingMessage" name="message" rows="3"
+                                  placeholder="Tell the landlord about your interest in this property..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Submit Booking Request</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

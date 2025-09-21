@@ -33,22 +33,12 @@
                 <i class="fas fa-users me-2"></i> Tenants
             </a>
         </li>
-        <!--<li>
-            <a href="{{ route('admin.messages.index') }}"
-                class="nav-link {{ request()->is('messagess*') ? 'active' : 'text-dark' }}">
-                <i class="fas fa-envelope m-2"></i> Messages
-                @auth
-                @if(auth()->user()->unreadMessages()->count() > 0)
-                <span class="badge bg-danger">{{ auth()->user()->unreadMessages()->count() }}</span>
-                @endif
-                @endauth
-            </a>
-        </li> -->
         <!-- System Monitoring -->
         <li class="mt-3 mb-1 text-uppercase fw-bold small text-muted">System Monitoring</li>
         <li>
-            <a href="{{ route('admin.analytics.index') }}"
-                class="nav-link {{ request()->is('analytics*') ? 'active' : 'text-dark' }}">
+            <a href="#analytics"
+                class="nav-link {{ request()->is('admin/analytics*') ? 'active' : 'text-dark' }}"
+                data-bs-toggle="tab" data-url="{{ route('admin.analytics.index') }}">
                 <i class="fas fa-chart-bar me-2"></i> Analytics
             </a>
         </li>

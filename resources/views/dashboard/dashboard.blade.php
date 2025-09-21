@@ -385,6 +385,9 @@ body {
             <div class="tab-pane fade" id="system-health">
                 @livewire('system-health')
             </div>
+            <div class="tab-pane fade" id="analytics">
+                @livewire('analytics-table')
+            </div>
         </div>
     </main>
 </div>

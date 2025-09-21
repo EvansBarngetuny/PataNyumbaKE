@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LandlordController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpamReportController;
 use App\Http\Controllers\SystemHealthController;
 use App\Http\Controllers\TenantController;
+use App\Http\Livewire\AnalyticsTable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -94,9 +96,14 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/system-health', [SystemHealthController::class, 'index'])->name('admin.system-health.index');
     // Route::get('/system-health/chart', [SystemHealthController::class, 'chart'])->name('admin.system-health.chart');
     // Route::get('/system-health/notifications', [SystemHealthController::class, 'notifications'])->name('admin.system-health.notifications');
+    Route::get('system-analytics', [AnalyticsController::class, 'index'])->name('admin.analytics.index');
 });
 // Landlord Routes
 Route::prefix('landlord')->middleware(['auth', 'landlord'])->group(function () {
     Route::get('/dashboard', [LandlordDashboardController::class, 'index'])->name('landlord.dashboard');
     // Route::get('/landlord/dashboard', [LandlordDashboardController::class, 'index'])->name('landloard.dashboard');
 });
+//Booking Route
+Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
+//email configs
+Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');

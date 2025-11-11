@@ -21,8 +21,8 @@ class BookingController extends Controller
             'message' => 'nullable|string',
         ]);
         $listing = Listing::findOrFail($validated['listing_id']);
-        if ($listing->status !== 'vacant'){
-            return redirect()->back()->with('error','This property is not available for booking.');
+        if ($listing->status !== 'vacant') {
+            return redirect()->back()->with('error', 'This property is not available for booking.');
         }
         //create booking
         $booking = Booking::create([
@@ -35,6 +35,7 @@ class BookingController extends Controller
             'message' => $validated['message'],
             'status' => 'pending',
         ]);
+
         return redirect()->back()->with('success', 'Booking request submitted successfully! The landlord will contact you soon.');
     }
 }

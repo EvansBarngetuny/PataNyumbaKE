@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notification;
 class NewMessageNotification extends Notification
 {
     use Queueable;
+
     public $message;
 
     /**

@@ -16,6 +16,6 @@ class Review extends Model
         'rating',
         'comment',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 }

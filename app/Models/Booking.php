@@ -20,13 +20,16 @@ class Booking extends Model
         'move_in_date',
         'landlord_notes',
     ];
+
     protected $casts = [
         'move_in_date' => 'date',
     ];
+
     public function listing()
     {
         return $this->belongsTo(Listing::class);
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);

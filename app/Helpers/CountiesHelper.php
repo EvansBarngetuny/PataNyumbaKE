@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('kenyanCounties')) {
+if (! function_exists('kenyanCounties')) {
     function kenyanCounties()
     {
         return [

@@ -2,18 +2,21 @@
 
 namespace App\Http\Livewire\Landlord;
 
-use App\Models\Listing;
-use App\Models\User;
-use App\Models\Payment;
 use App\Models\Activity;
+use App\Models\Listing;
+use App\Models\Payment;
 use Livewire\Component;
 
 class Overview extends Component
 {
     public $activeListings;
+
     public $occupiedUnits;
+
     public $pendingRent;
+
     public $totalRevenue;
+
     public $recentActivities;
 
     public function mount()
@@ -53,7 +56,7 @@ class Overview extends Component
                 return [
                     'action' => $this->getActionType($activity->type),
                     'details' => $activity->details,
-                    'time' => $activity->time_ago
+                    'time' => $activity->time_ago,
                 ];
             })
             ->toArray();
@@ -61,7 +64,7 @@ class Overview extends Component
         // If no activities yet, show sample data
         if (empty($this->recentActivities)) {
             $this->recentActivities = [
-                ['action' => 'Welcome to PataNyumba', 'details' => 'Get started by adding your first property', 'time' => 'Just now']
+                ['action' => 'Welcome to PataNyumba', 'details' => 'Get started by adding your first property', 'time' => 'Just now'],
             ];
         }
     }

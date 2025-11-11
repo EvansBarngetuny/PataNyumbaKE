@@ -14,11 +14,11 @@ class AddSenderEmailAndPhoneToMessagesTable extends Migration
     public function up()
     {
         Schema::table('messages', function (Blueprint $table) {
-              if (!Schema::hasColumn('messages', 'sender_email')) {
+            if (! Schema::hasColumn('messages', 'sender_email')) {
                 $table->string('sender_email')->nullable()->after('sender_id');
             }
-            
-            if (!Schema::hasColumn('messages', 'sender_phone')) {
+
+            if (! Schema::hasColumn('messages', 'sender_phone')) {
                 $table->string('sender_phone')->nullable()->after('sender_email');
             }
         });

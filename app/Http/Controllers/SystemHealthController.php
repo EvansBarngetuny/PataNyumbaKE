@@ -50,7 +50,7 @@ class SystemHealthController extends Controller
     private function getSystemStatus()
     {
         return Cache::remember('system_status', 60, function () { // Cache for 60 seconds
-            $loadAverage = [];
+        $loadAverage = [];
             $uptime = 'N/A';
 
             try {
@@ -70,7 +70,7 @@ class SystemHealthController extends Controller
                 }
 
                 $health = 'healthy';
-                if (!empty($loadAverage) && $loadAverage[0] > 5) {
+                if (! empty($loadAverage) && $loadAverage[0] > 5) {
                     $health = 'unhealthy';
                 }
 

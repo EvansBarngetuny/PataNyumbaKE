@@ -11,16 +11,27 @@ use Livewire\Component;
 class AnalyticsTable extends Component
 {
     public $successfulMatches;
+
     public $matchPercentageChange;
+
     public $vacantProperties;
+
     public $vacantChange;
+
     public $avgResponseTime;
+
     public $responseTimeChange;
+
     public $healthScore;
+
     public $healthStatus;
+
     public $popularCounties;
+
     public $bookedHouses;
+
     public $ocupiedCategories;
+
     public $timeRange = 'month';
 
     protected $listeners = ['refreshAnalytics' => 'loadData', 'timeRangeChanged' => 'setTimeRange'];
@@ -60,7 +71,7 @@ class AnalyticsTable extends Component
         $lastWeekVacant = Listing::where('status', 'vacant')
             ->whereBetween('updated_at', [
                 now()->subWeek()->startOfWeek(),
-                now()->subWeek()->endOfWeek()
+                now()->subWeek()->endOfWeek(),
             ])
             ->count();
 

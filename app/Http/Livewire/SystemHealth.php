@@ -9,6 +9,7 @@ use Livewire\Component;
 class SystemHealth extends Component
 {
     public $refreshInterval = 10; // seconds
+
     public $lastUpdated;
 
     protected $listeners = ['refresh' => '$refresh'];
@@ -38,7 +39,7 @@ class SystemHealth extends Component
                 }
 
                 $health = 'healthy';
-                if (!empty($loadAverage) && $loadAverage[0] > 5) {
+                if (! empty($loadAverage) && $loadAverage[0] > 5) {
                     $health = 'unhealthy';
                 }
 

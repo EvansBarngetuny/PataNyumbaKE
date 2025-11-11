@@ -56,6 +56,7 @@ class User extends Authenticatable
         return $this->hasMany(Message::class, 'recipient_id')
                     ->whereNull('read_at');
     }
+
     public function payments()
     {
         return $this->hasMany(Payment::class);

@@ -21,7 +21,7 @@ class CreateBookingsTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->text('message')->nullable();
-            $table->enum('status',['pending','confirmed','cancelled','completed'])->default('pending');
+            $table->enum('status', ['pending', 'confirmed', 'cancelled', 'completed'])->default('pending');
             $table->date('move_in_date')->nullable();
             $table->text('landlord_notes')->nullable();
             $table->timestamps();

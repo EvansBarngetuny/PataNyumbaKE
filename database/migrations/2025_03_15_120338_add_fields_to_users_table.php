@@ -17,7 +17,6 @@ class AddFieldsToUsersTable extends Migration
             $table->string('phone_number')->unique()->after('email');
             $table->enum('role', ['tenant', 'landlord', 'agent', 'admin'])->default('tenant')->after('password');
             $table->string('profile_picture')->nullable()->after('role');
-
         });
     }
 

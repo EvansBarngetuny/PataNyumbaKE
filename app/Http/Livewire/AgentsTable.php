@@ -14,12 +14,17 @@ class AgentsTable extends Component
     use WithFileUploads;
 
     public $search = '';
+
     public $sortField = 'name';
+
     public $sortDirection = 'asc';
+
     public $perPage = 10;
 
     public $selectedUserId;
+
     public $editModalOpen = false;
+
     public $deleteModalOpen = false;
 
     public $user = [
@@ -29,7 +34,9 @@ class AgentsTable extends Component
         'role' => 'agent',
         'profile_picture' => null,
     ];
+
     public $newProfilePicture;
+
     public $currentProfilePicture;
 
     protected $rules = [
@@ -39,11 +46,17 @@ class AgentsTable extends Component
         'user.role' => 'required|in:landlord,agent',
         'newProfilePicture' => 'nullable|image|max:2048',
     ];
+
     public $createModalOpen = false;
+
     public $name;
+
     public $email;
+
     public $phone_number;
+
     public $role = 'agent';
+
     public $password;
 
     protected $listeners = [

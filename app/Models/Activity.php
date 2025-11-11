@@ -13,22 +13,25 @@ class Activity extends Model
         'user_id',
         'type',
         'description',
-        'metadata'
+        'metadata',
     ];
+
     protected $casts = [
         'metadata' => 'array',
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
       public static function log($type, $description, $metadata = [])
-    {
-        return self::create([
-            'user_id' => auth()->id(),
-            'type' => $type,
-            'description' => $description,
-            'metadata' => $metadata
-        ]);
-    }
+      {
+          return self::create([
+              'user_id' => auth()->id(),
+              'type' => $type,
+              'description' => $description,
+              'metadata' => $metadata,
+          ]);
+      }
 }

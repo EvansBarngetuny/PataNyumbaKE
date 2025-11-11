@@ -10,19 +10,30 @@ use Livewire\WithFileUploads;
 class AddProperty extends Component
 {
     use WithFileUploads;
+
     public $title;
+
     public $category;
+
     public $price;
+
     public $status = 'vacant';
+
     public $county;
+
     public $estate;
+
     public $location;
+
     public $images = [];
+
     public $video_url;
+
     public $description;
+
     public $is_verified = false;
 
-     protected $rules = [
+    protected $rules = [
         'title' => 'required|string|max:255',
         'category' => 'required|in:single,double,bedsitter,one-bedroom,two-bedroom',
         'price' => 'required|numeric|min:0',
@@ -34,7 +45,7 @@ class AddProperty extends Component
         'images.*' => 'image|mimes:jpeg,png,png,gif,svg|max:5120', // 5MB max
         'video_url' => 'nullable|url',
         'description' => 'required|string|min:10',
-        'is_verified' => 'boolean'
+        'is_verified' => 'boolean',
     ];
 
     protected $messages = [
@@ -47,9 +58,10 @@ class AddProperty extends Component
     {
         return view('livewire.landlord.add-property');
     }
+
     public function save()
     {
-        Log::info('Save method called' , ['data' => $this->all()]);
+        Log::info('Save method called', ['data' => $this->all()]);
         $this->validate();
         Log::info('Validation Passed');
         try {
@@ -58,7 +70,7 @@ class AddProperty extends Component
             foreach ($this->images as $image) {
                 $path = $image->store('listings', 'public');
                 $uploadedImages[] = $path;
-                Log::info('Image Stored: ' . $path);
+                Log::info('Image Stored: '.$path);
             }
 
             // Create the listing
@@ -76,22 +88,21 @@ class AddProperty extends Component
                 'description' => $this->description,
                 'is_verified' => $this->is_verified,
             ]);
-            Log::info('Listing created with ID: ' . $listing->id);
+            Log::info('Listing created with ID: '.$listing->id);
             // Reset form
             $this->reset();
             $this->resetValidation();
 
             // Show success message
             session()->flash('success', 'Property listed successfully!');
-            $this->dispatchBrowserEvent('show-success','Property Listed Successful');
+            $this->dispatchBrowserEvent('show-success', 'Property Listed Successful');
 
             // Emit event to refresh properties list
             $this->emit('propertyAdded');
-
         } catch (\Exception $e) {
-            Log::error('error creating listing: ' .$e->getMessage());
-            session()->flash('error', 'Error creating listing: ' . $e->getMessage());
-            $this->dispatchBrowserEvent('show-error', 'Error Creating Listing: ' . $e->getMessage());
+            Log::error('error creating listing: '.$e->getMessage());
+            session()->flash('error', 'Error creating listing: '.$e->getMessage());
+            $this->dispatchBrowserEvent('show-error', 'Error Creating Listing: '.$e->getMessage());
         }
     }
 

@@ -13,7 +13,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpamReportController;
 use App\Http\Controllers\SystemHealthController;
 use App\Http\Controllers\TenantController;
-use App\Http\Livewire\AnalyticsTable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;

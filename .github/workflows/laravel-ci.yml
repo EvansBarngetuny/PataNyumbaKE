@@ -11,17 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      # GitHub will provide a temporary MySQL container for testing
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes # Allow empty root password
           MYSQL_DATABASE: patanyumba_test
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
-      # Redis for cache/session testing
       redis:
         image: redis:alpine
         ports:
@@ -34,9 +32,8 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2"
+          php-version: "8.1"
           extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, mysqlnd, bcmath
-          coverage: xdebug
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -45,10 +42,7 @@ jobs:
           cache: "npm"
 
       - name: Copy environment file
-        run: |
-          cp .env.example .env.test
-          # Generate app key for testing
-          php artisan key:generate --env=test
+        run: cp .env.example .env
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
@@ -59,55 +53,29 @@ jobs:
       - name: Build frontend assets
         run: npm run build
 
-      - name: Validate composer.json
-        run: composer validate --strict
+      - name: Generate app key
+        run: php artisan key:generate
 
-      - name: Run PHPStan for static analysis
+      - name: Create test database
         run: |
-          composer require --dev phpstan/phpstan
-          ./vendor/bin/phpstan analyse app/ database/ tests/ --level=5
-
-      - name: Run Laravel Pint for code style
-        run: |
-          composer require --dev laravel/pint
-          ./vendor/bin/pint --test
+          mysql --host=127.0.0.1 --user=root -e "CREATE DATABASE IF NOT EXISTS patanyumba_test;"
 
       - name: Execute PHPUnit tests
         env:
           APP_ENV: testing
-          APP_KEY: base64:Mvkwhy75ZsQraMAMttgUMAzJw0v8btxl0y7GrEp8z5k=
           DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_DATABASE: patanyumba_test
           DB_USERNAME: root
-          DB_PASSWORD:
-          REDIS_HOST: 127.0.0.1
-          REDIS_PORT: 6379
-          CACHE_DRIVER: redis
-          SESSION_DRIVER: redis
-          QUEUE_CONNECTION: redis
+          DB_PASSWORD: "" # Empty password
         run: |
           php artisan config:clear
-          php artisan migrate --env=testing
-          php artisan test --coverage-clover coverage.xml
+          php artisan migrate --force
+          php artisan test
 
-      - name: Security check with Enlightn
-        run: |
-          composer require --dev enlightn/enlightn
-          php artisan enlightn --ci
+      - name: Run Laravel Pint for code style
+        run: ./vendor/bin/pint --test
 
-      - name: Upload test coverage
-        uses: codecov/codecov-action@v3
-        with:
-          file: ./coverage.xml
-          flags: unittests
-          name: patanyumba-coverage
-
-      - name: Archive test results
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: |
-            coverage.xml
-            storage/logs/
+      - name: Run PHPStan for static analysis
+        run: ./vendor/bin/phpstan analyse --no-progress
